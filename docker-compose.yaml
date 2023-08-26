@@ -1,0 +1,30 @@
+version: "3.0"
+services:
+  db_chat:
+    container_name: "db_chat"
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+  chat:
+    build:
+      context: .
+    env_file:
+      - .env.example
+    container_name: "chat"
+    command: >
+      sh -c "python3 manage.py migrate
+      && sleep 2s
+      && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8005:8000
+    depends_on:
+      - db_chat
+      - redis_chat
+  redis_chat:
+    container_name: "redis_chat"
+    image: redis:6.0.16-alpine
+
+
