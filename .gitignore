@@ -10,6 +10,8 @@ media/
 .pytest_cache/
 .idea/
 
+docker-compose-local.yaml
+Makefile
 
 # pyenv
 .python-version
